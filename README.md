@@ -1,3 +1,7 @@
+[![test](https://github.com/kaduartur/go-cnpj/actions/workflows/go.yml/badge.svg)](https://github.com/kaduartur/go-cnpj/actions/workflows/go.yml)
+[![codecov](https://codecov.io/gh/kaduartur/go-cnpj/branch/main/graph/badge.svg?token=M0UZ2KNHV5)](https://codecov.io/gh/kaduartur/go-cnpj)
+[![CodeFactor](https://www.codefactor.io/repository/github/kaduartur/go-cnpj/badge)](https://www.codefactor.io/repository/github/kaduartur/go-cnpj)
+
 # go-cnpj
 
 go-cnpj is a lightweight and simple lib for validating the Brazilian National Register of Legal Entities (CNPJ)
