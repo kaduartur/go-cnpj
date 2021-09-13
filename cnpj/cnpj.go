@@ -20,32 +20,37 @@ var (
 	ErrSecondVerificationDigit = errors.New("the second verification digit is invalid")
 )
 
+// IsValid validates the value is a valid CNPJ,
+// the value can be formatted as 22.896.431/0001-10 or 22896431000110.
+// If err != nil the CNPJ is valid.
 func IsValid(value string) error {
-	c := clean(value)
-	if len(c) != validSize {
+	cnpj := clean(value)
+	if len(cnpj) != validSize {
 		return ErrInvalidSize
 	}
 
-	if isEqual(c) {
+	if isEqual(cnpj) {
 		return ErrAllDigitsEquals
 	}
 
-	if c[firstDigPos] != calculateDigit(c[:firstDigPos], firstPos) {
+	if cnpj[firstDigPos] != calculateDigit(cnpj[:firstDigPos], firstPos) {
 		return ErrFirstVerificationDigit
 	}
 
-	if c[secondDigPos] != calculateDigit(c[:secondDigPos], secondPos) {
+	if cnpj[secondDigPos] != calculateDigit(cnpj[:secondDigPos], secondPos) {
 		return ErrSecondVerificationDigit
 	}
 
 	return nil
 }
 
-func calculateDigit(doc []uint, pos uint) uint {
+// calculateDigit calculates the module 11 to check
+// the verification digits is valid
+func calculateDigit(value []uint, pos uint) uint {
 	var sum uint
 	var digit uint
-	for i := 0; i <= len(doc)-1; i++ {
-		sum += doc[i] * pos
+	for i := 0; i <= len(value)-1; i++ {
+		sum += value[i] * pos
 		pos--
 
 		if pos < 2 {
@@ -61,21 +66,21 @@ func calculateDigit(doc []uint, pos uint) uint {
 	return digit
 }
 
-func toInt(r rune) uint {
-	return uint(r) - '0'
-}
-
-func clean(c string) []uint {
+// Clean cleans all invalid characters in CNPJ
+// and transform all char to uint
+// all numbers cannot be negative
+func clean(value string) []uint {
 	var cnpj []uint
-	for _, v := range c {
+	for _, v := range value {
 		if unicode.IsDigit(v) {
-			cnpj = append(cnpj, toInt(v))
+			cnpj = append(cnpj, toUint(v))
 		}
 	}
 
 	return cnpj
 }
 
+// isEqual checks if the cnpj numbers are equals
 func isEqual(cnpj []uint) bool {
 	for i := 1; i < len(cnpj); i++ {
 		if cnpj[0] != cnpj[i] {
@@ -84,4 +89,9 @@ func isEqual(cnpj []uint) bool {
 	}
 
 	return true
+}
+
+// toUint transforme rune in an uint value
+func toUint(r rune) uint {
+	return uint(r) - '0'
 }
