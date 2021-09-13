@@ -93,4 +93,6 @@ modules.xml
 .history
 .ionide
 
+coverage.txt
+
 # End of https://www.toptal.com/developers/gitignore/api/go,visualstudiocode,intellij+all
