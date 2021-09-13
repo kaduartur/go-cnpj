@@ -1,3 +1,3 @@
-module github.com/kaduartur/cnpj
+module github.com/kaduartur/go-cnpj
 
 go 1.16
